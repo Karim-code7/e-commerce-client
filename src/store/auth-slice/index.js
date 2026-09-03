@@ -21,13 +21,9 @@ export const registerUser = createAsyncThunk(
   },
 );
 export const lognUser = createAsyncThunk("/auth/login", async (formData) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/auth/login",
-    formData,
-    {
-      withCredentials: true,
-    },
-  );
+  const response = await axios.post(`${API_URL}/api/auth/login`, formData, {
+    withCredentials: true,
+  });
   return response.data;
 });
 
@@ -43,29 +39,23 @@ export const logoutUser = createAsyncThunk("/auth/loguotUser", async () => {
 });
 
 export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
-  const response = await axios.get(
-    "https://e-commerce-server-pi.vercel.app/api/auth/check-auth",
-    {
-      withCredentials: true,
-      headers: {
-        "Cache-Control":
-          "no-store , no-cache , must-revalidate , proxy-revalidate",
-      },
+  const response = await axios.get(`${API_URL}/api/auth/check-auth`, {
+    withCredentials: true,
+    headers: {
+      "Cache-Control":
+        "no-store , no-cache , must-revalidate , proxy-revalidate",
     },
-  );
+  });
   return response.data;
 });
 export const checkAdmin = createAsyncThunk("/auth/checkAdmin", async () => {
-  const response = await axios.get(
-    "http://localhost:5000/api/auth/check-admin",
-    {
-      withCredentials: true,
-      headers: {
-        "Cache-Control":
-          "no-store , no-cache , must-revalidate , proxy-revalidate",
-      },
+  const response = await axios.get(`${API_URL}/api/auth/check-admin`, {
+    withCredentials: true,
+    headers: {
+      "Cache-Control":
+        "no-store , no-cache , must-revalidate , proxy-revalidate",
     },
-  );
+  });
   return response.data;
 });
 const authSlice = createSlice({
