@@ -44,7 +44,7 @@ export const logoutUser = createAsyncThunk("/auth/loguotUser", async () => {
 
 export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
   const response = await axios.get(
-    "http://localhost:5000/api/auth/check-auth",
+    "https://e-commerce-server-pi.vercel.app/api/auth/check-auth",
     {
       withCredentials: true,
       headers: {

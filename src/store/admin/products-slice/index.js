@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// تعريف رابط الـ API ليقرأ من متغيرات البيئة تلقائياً أو يستخدم localhost افتراضياً
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const initialState = {
   isLoading: false,
   productList: [],
@@ -11,7 +14,7 @@ export const addNewProduct = createAsyncThunk(
   "/products/addNewProduct",
   async (formData) => {
     const result = await axios.post(
-      "http://localhost:5000/api/admin/products/add",
+      `${API_URL}/api/admin/products/add`,
       formData,
       {
         headers: {
@@ -28,17 +31,18 @@ export const getProductDeatilsForAdmin = createAsyncThunk(
   "/products/getProductDeatilsForAdmin",
   async (id) => {
     const result = await axios.get(
-      `http://localhost:5000/api/admin/products/get-productDetails/${id}`,
+      `${API_URL}/api/admin/products/get-productDetails/${id}`,
       { withCredentials: true },
     );
     return result?.data;
   },
 );
+
 export const fetchAllProduct = createAsyncThunk(
   "/products/fetchAllProduct",
   async () => {
     const result = await axios.get(
-      "http://localhost:5000/api/admin/products/get",
+      `https://e-commerce-server-pi.vercel.app/api/admin/products/get`,
       {
         withCredentials: true,
       },
@@ -46,11 +50,12 @@ export const fetchAllProduct = createAsyncThunk(
     return result?.data;
   },
 );
+
 export const editProduct = createAsyncThunk(
   "/products/editProduct",
   async ({ id, formData }) => {
     const result = await axios.put(
-      `http://localhost:5000/api/admin/products/edit/${id}`,
+      `${API_URL}/api/admin/products/edit/${id}`,
       formData,
       {
         headers: {
@@ -67,7 +72,7 @@ export const deleteProduct = createAsyncThunk(
   "/products/deleteProduct",
   async (id) => {
     const result = await axios.delete(
-      `http://localhost:5000/api/admin/products/delete/${id}`,
+      `${API_URL}/api/admin/products/delete/${id}`,
       {
         withCredentials: true,
       },
@@ -76,6 +81,7 @@ export const deleteProduct = createAsyncThunk(
     return result?.data;
   },
 );
+
 const AdminProudctsSlice = createSlice({
   name: "adminProduct",
   initialState,
@@ -89,7 +95,7 @@ const AdminProudctsSlice = createSlice({
         state.isLoading = false;
         state.productList = action.payload.data;
       })
-      .addCase(fetchAllProduct.rejected, (state, action) => {
+      .addCase(fetchAllProduct.rejected, (state) => {
         state.isLoading = false;
         state.productList = [];
       })
@@ -100,7 +106,7 @@ const AdminProudctsSlice = createSlice({
         state.isLoading = false;
         state.productDeatils = action.payload.data;
       })
-      .addCase(getProductDeatilsForAdmin.rejected, (state, action) => {
+      .addCase(getProductDeatilsForAdmin.rejected, (state) => {
         state.isLoading = false;
         state.productDeatils = [];
       });
@@ -108,4 +114,3 @@ const AdminProudctsSlice = createSlice({
 });
 
 export default AdminProudctsSlice.reducer;
-export const { restoreOrderList } = AdminProudctsSlice.actions;
