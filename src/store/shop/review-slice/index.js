@@ -5,16 +5,12 @@ const initialState = {
   isLoading: false,
   reviews: [],
 };
-
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 export const addReview = createAsyncThunk("shop/addReview", async (data) => {
   try {
-    const result = await axios.post(
-      "http://localhost:5000/api/shop/review/add",
-      data,
-      {
-        withCredentials: true,
-      },
-    );
+    const result = await axios.post(`${URL}/api/shop/review/add`, data, {
+      withCredentials: true,
+    });
     return result.data;
   } catch (error) {
     return error.response.data;
@@ -23,12 +19,9 @@ export const addReview = createAsyncThunk("shop/addReview", async (data) => {
 export const getReview = createAsyncThunk(
   "shop/getReview",
   async (productId) => {
-    const result = await axios.get(
-      `http://localhost:5000/api/shop/review/${productId}`,
-      {
-        withCredentials: true,
-      },
-    );
+    const result = await axios.get(`${URL}/api/shop/review/${productId}`, {
+      withCredentials: true,
+    });
     return result.data;
   },
 );

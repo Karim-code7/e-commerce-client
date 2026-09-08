@@ -7,13 +7,14 @@ const initialState = {
   trashLoading: false,
   ubdateLodaing: false,
 };
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ userId, productId, quantity }) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/shop/cart/add`,
+        `${URL}/api/shop/cart/add`,
         {
           userId,
           productId,
@@ -32,15 +33,9 @@ export const addToCart = createAsyncThunk(
 export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
   async ({ userId }) => {
-    const response = await axios.get(
-      `http://localhost:5000/api/shop/cart/get/${userId}`,
-      {
-        withCredentials: true,
-      },
-      {
-        withCredentials: true,
-      },
-    );
+    const response = await axios.get(`${URL}/api/shop/cart/get/${userId}`, {
+      withCredentials: true,
+    });
     return response.data;
   },
 );
@@ -48,7 +43,7 @@ export const deleteCartItems = createAsyncThunk(
   "cart/deleteCartItems",
   async ({ userId, productId }) => {
     const response = await axios.delete(
-      `http://localhost:5000/api/shop/cart/delete-item/${userId}/${productId}`,
+      `${URL}/api/shop/cart/delete-item/${userId}/${productId}`,
       {
         withCredentials: true,
       },
@@ -60,7 +55,7 @@ export const ubdateCartQuantity = createAsyncThunk(
   "cart/ubdateCartQuantity",
   async ({ userId, productId, quantity }) => {
     const response = await axios.put(
-      `http://localhost:5000/api/shop/cart/ubdate-cart`,
+      `${URL}/api/shop/cart/ubdate-cart`,
 
       {
         userId,

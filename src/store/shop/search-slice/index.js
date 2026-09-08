@@ -5,15 +5,14 @@ const initialState = {
   isLoading: false,
   searchProducts: [],
 };
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export const fetchSearchProducts = createAsyncThunk(
   "shop/fetchSearchProducts",
   async (keyword) => {
-    const result = await axios.get(
-      `http://localhost:5000/api/shop/search/${keyword}`,
-      {
-        withCredentials: true,
-      },
-    );
+    const result = await axios.get(`${URL}/api/shop/search/${keyword}`, {
+      withCredentials: true,
+    });
     return result.data;
   },
 );

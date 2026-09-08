@@ -6,6 +6,7 @@ const initialState = {
   products: [],
   productDeatails: null,
 };
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const fetchAllFiltred = createAsyncThunk(
   "/shopProduct/fetchAllProduct",
@@ -17,7 +18,7 @@ export const fetchAllFiltred = createAsyncThunk(
     }).toString();
     // 2. إرسال الـ Query مع الرابط
     const result = await axios.get(
-      `http://localhost:5000/api/shop/products/all-products?${queryString}`,
+      `${URL}/api/shop/products/all-products?${queryString}`,
       {
         withCredentials: true,
       },
@@ -30,12 +31,9 @@ export const fetchAllFiltred = createAsyncThunk(
 export const fetchProductDeatils = createAsyncThunk(
   "/shopProduct/fetchProductDetails",
   async (id) => {
-    const result = await axios.get(
-      `http://localhost:5000/api/shop/products/details/${id}`,
-      {
-        withCredentials: true,
-      },
-    );
+    const result = await axios.get(`${URL}/api/shop/products/details/${id}`, {
+      withCredentials: true,
+    });
 
     return result.data;
   },
