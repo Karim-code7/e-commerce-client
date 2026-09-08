@@ -34,6 +34,8 @@ const initialFormData = {
   salePrice: "",
   totalStock: "",
 };
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function AdminProducts() {
   const [openCreateProductsDialog, setOpenCreateProductsDialog] =
     useState(false);
@@ -103,7 +105,7 @@ function AdminProducts() {
         });
 
         const response = await axios.post(
-          "http://localhost:5000/api/admin/products/upload-image",
+          `${URL}/api/admin/products/upload-image`,
           dataFormImages,
           { withCredentials: true },
         );

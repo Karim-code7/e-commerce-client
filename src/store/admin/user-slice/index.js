@@ -6,13 +6,14 @@ const initialState = {
   isLoading: false,
   userDeatils: [],
 };
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const fetchUser = createAsyncThunk(
   "adminUser/fetchUser",
   async ({ userId }) => {
     // 🌟 ضع الأقواس هنا لتطابق الـ useEffect
     const result = await axios.get(
-      `http://localhost:5000/api/admin/user/fetchUser/${userId}`,
+      `${URL}/api/admin/user/fetchUser/${userId}`,
       {
         withCredentials: true,
       },

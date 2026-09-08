@@ -7,15 +7,13 @@ const initialState = {
   statusData: [],
   isLoading: false,
 };
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const getAllAnalyticsData = createAsyncThunk(
   "adminAnalytics/getAllAnalyticsData",
   async ({ startDate, endDate }) => {
-    // استخدام متغير البيئة مع المسار النسبي
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
     const response = await axios.get(
-      `${API_URL}/api/admin/analytics?startDate=${startDate}&endDate=${endDate}`,
+      `${URL}/api/admin/analytics?startDate=${startDate}&endDate=${endDate}`,
       {
         withCredentials: true,
       },
@@ -27,9 +25,7 @@ export const getAllAnalyticsData = createAsyncThunk(
 export const getDashboardStatusData = createAsyncThunk(
   "adminAnalytics/getDashboardStatusData",
   async () => {
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-    const response = await axios.get(`${API_URL}/api/admin/analytics/status`, {
+    const response = await axios.get(`${URL}/api/admin/analytics/status`, {
       withCredentials: true,
     });
     return response.data;

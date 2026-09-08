@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // تعريف رابط الـ API ليقرأ من متغيرات البيئة تلقائياً أو يستخدم localhost افتراضياً
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const initialState = {
   isLoading: false,
@@ -31,7 +31,7 @@ export const getProductDeatilsForAdmin = createAsyncThunk(
   "/products/getProductDeatilsForAdmin",
   async (id) => {
     const result = await axios.get(
-      `${API_URL}/api/admin/products/get-productDetails/${id}`,
+      `${URL}/api/admin/products/get-productDetails/${id}`,
       { withCredentials: true },
     );
     return result?.data;
@@ -41,12 +41,9 @@ export const getProductDeatilsForAdmin = createAsyncThunk(
 export const fetchAllProduct = createAsyncThunk(
   "/products/fetchAllProduct",
   async () => {
-    const result = await axios.get(
-      `https://e-commerce-server-pi.vercel.app/api/admin/products/get`,
-      {
-        withCredentials: true,
-      },
-    );
+    const result = await axios.get(`${URL}/api/admin/products/get`, {
+      withCredentials: true,
+    });
     return result?.data;
   },
 );
@@ -55,7 +52,7 @@ export const editProduct = createAsyncThunk(
   "/products/editProduct",
   async ({ id, formData }) => {
     const result = await axios.put(
-      `${API_URL}/api/admin/products/edit/${id}`,
+      `${URL}/api/admin/products/edit/${id}`,
       formData,
       {
         headers: {
@@ -72,7 +69,7 @@ export const deleteProduct = createAsyncThunk(
   "/products/deleteProduct",
   async (id) => {
     const result = await axios.delete(
-      `${API_URL}/api/admin/products/delete/${id}`,
+      `${URL}/api/admin/products/delete/${id}`,
       {
         withCredentials: true,
       },

@@ -7,16 +7,14 @@ const initialState = {
   allOrders: [],
   orderDeatils: [],
 };
+const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const getAllOrdersByAdmin = createAsyncThunk(
   "adminOrder/getAllOrdersByAdmin",
   async () => {
-    const response = await axios.get(
-      "http://localhost:5000/api/admin/order/getAllOrders",
-      {
-        withCredentials: true,
-      },
-    );
+    const response = await axios.get(`${URL}/api/admin/order/getAllOrders`, {
+      withCredentials: true,
+    });
     return response.data;
   },
 );
@@ -24,7 +22,7 @@ export const getOrderDeatilsForAdmin = createAsyncThunk(
   "adminOrder/getOrderDeatilsForAdmin",
   async ({ id }) => {
     const response = await axios.get(
-      `http://localhost:5000/api/admin/order/getOrderDeatilsForAdmin/${id}`,
+      `${URL}/api/admin/order/getOrderDeatilsForAdmin/${id}`,
       {
         withCredentials: true,
       },
@@ -36,7 +34,7 @@ export const updateOrderStatus = createAsyncThunk(
   "adminOrder/updateOrderStatus",
   async ({ id, status }) => {
     const response = await axios.put(
-      `http://localhost:5000/api/admin/order/updateOrderStatus`,
+      `${URL}/api/admin/order/updateOrderStatus`,
       { id, status },
       {
         withCredentials: true,
