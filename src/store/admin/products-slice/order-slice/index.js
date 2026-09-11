@@ -1,3 +1,4 @@
+import { API_URL } from "@/config";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -7,14 +8,16 @@ const initialState = {
   allOrders: [],
   orderDeatils: [],
 };
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const getAllOrdersByAdmin = createAsyncThunk(
   "adminOrder/getAllOrdersByAdmin",
   async () => {
-    const response = await axios.get(`${URL}/api/admin/order/getAllOrders`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `${API_URL}/api/admin/order/getAllOrders`,
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   },
 );
@@ -22,7 +25,7 @@ export const getOrderDeatilsForAdmin = createAsyncThunk(
   "adminOrder/getOrderDeatilsForAdmin",
   async ({ id }) => {
     const response = await axios.get(
-      `${URL}/api/admin/order/getOrderDeatilsForAdmin/${id}`,
+      `${API_URL}/api/admin/order/getOrderDeatilsForAdmin/${id}`,
       {
         withCredentials: true,
       },
@@ -34,7 +37,7 @@ export const updateOrderStatus = createAsyncThunk(
   "adminOrder/updateOrderStatus",
   async ({ id, status }) => {
     const response = await axios.put(
-      `${URL}/api/admin/order/updateOrderStatus`,
+      `${API_URL}/api/admin/order/updateOrderStatus`,
       { id, status },
       {
         withCredentials: true,

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "@/config";
 
 const initialState = {
   isAuthenticated: false,
@@ -7,19 +8,17 @@ const initialState = {
   user: null,
 };
 
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 export const registerUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
-    const response = await axios.post(`${URL}/api/auth/register`, formData, {
+    const response = await axios.post(`${API_URL}/api/auth/register`, formData, {
       withCredentials: true,
     });
     return response.data;
   },
 );
 export const lognUser = createAsyncThunk("/auth/login", async (formData) => {
-  const response = await axios.post(`${URL}/api/auth/login`, formData, {
+  const response = await axios.post(`${API_URL}/api/auth/login`, formData, {
     withCredentials: true,
   });
   return response.data;
@@ -27,7 +26,7 @@ export const lognUser = createAsyncThunk("/auth/login", async (formData) => {
 
 export const logoutUser = createAsyncThunk("/auth/loguotUser", async () => {
   const response = await axios.post(
-    `${URL}/api/auth/logout`,
+    `${API_URL}/api/auth/logout`,
     {},
     {
       withCredentials: true,
@@ -37,7 +36,7 @@ export const logoutUser = createAsyncThunk("/auth/loguotUser", async () => {
 });
 
 export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
-  const response = await axios.get(`${URL}/api/auth/check-auth`, {
+  const response = await axios.get(`${API_URL}/api/auth/check-auth`, {
     withCredentials: true,
     headers: {
       "Cache-Control":
@@ -47,7 +46,7 @@ export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
   return response.data;
 });
 export const checkAdmin = createAsyncThunk("/auth/checkAdmin", async () => {
-  const response = await axios.get(`${URL}/api/auth/check-admin`, {
+  const response = await axios.get(`${API_URL}/api/auth/check-admin`, {
     withCredentials: true,
     headers: {
       "Cache-Control":

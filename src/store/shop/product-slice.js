@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "@/config";
 
 const initialState = {
   isLoading: false,
   products: [],
   productDeatails: null,
 };
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 export const fetchAllFiltred = createAsyncThunk(
   "/shopProduct/fetchAllProduct",
   async ({ filterParams, sortParams }) => {
@@ -18,7 +17,7 @@ export const fetchAllFiltred = createAsyncThunk(
     }).toString();
     // 2. إرسال الـ Query مع الرابط
     const result = await axios.get(
-      `${URL}/api/shop/products/all-products?${queryString}`,
+      `${API_URL}/api/shop/products/all-products?${queryString}`,
       {
         withCredentials: true,
       },
@@ -31,7 +30,7 @@ export const fetchAllFiltred = createAsyncThunk(
 export const fetchProductDeatils = createAsyncThunk(
   "/shopProduct/fetchProductDetails",
   async (id) => {
-    const result = await axios.get(`${URL}/api/shop/products/details/${id}`, {
+    const result = await axios.get(`${API_URL}/api/shop/products/details/${id}`, {
       withCredentials: true,
     });
 

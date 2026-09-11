@@ -1,18 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "@/config";
 
 const initialState = {
   isLoading: false,
   allImageFeatures: [],
 };
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 export const uploadImage = createAsyncThunk(
   "image/uploadImage",
   async (data) => {
     const response = await axios.post(
-      `${URL}/api/common/features-image/upload-image`,
+      `${API_URL}/api/common/features-image/upload-image`,
       data,
       { withCredentials: true },
     );
@@ -24,7 +23,7 @@ export const getFeatureImages = createAsyncThunk(
   "image/getFeatureImages",
   async () => {
     const response = await axios.get(
-      `${URL}/api/common/features-image/all-images`,
+      `${API_URL}/api/common/features-image/all-images`,
       { withCredentials: true },
     );
     return response.data;
@@ -35,7 +34,7 @@ export const deleteFeatureImage = createAsyncThunk(
   "image/deleteImage",
   async (id) => {
     const response = await axios.delete(
-      `${URL}/api/common/features-image/${id}`,
+      `${API_URL}/api/common/features-image/${id}`,
       { withCredentials: true },
     );
     return response.data;

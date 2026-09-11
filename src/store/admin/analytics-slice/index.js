@@ -1,3 +1,4 @@
+import { API_URL } from "@/config";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -7,13 +8,12 @@ const initialState = {
   statusData: [],
   isLoading: false,
 };
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const getAllAnalyticsData = createAsyncThunk(
   "adminAnalytics/getAllAnalyticsData",
   async ({ startDate, endDate }) => {
     const response = await axios.get(
-      `${URL}/api/admin/analytics?startDate=${startDate}&endDate=${endDate}`,
+      `${API_URL}/api/admin/analytics?startDate=${startDate}&endDate=${endDate}`,
       {
         withCredentials: true,
       },
@@ -25,7 +25,7 @@ export const getAllAnalyticsData = createAsyncThunk(
 export const getDashboardStatusData = createAsyncThunk(
   "adminAnalytics/getDashboardStatusData",
   async () => {
-    const response = await axios.get(`${URL}/api/admin/analytics/status`, {
+    const response = await axios.get(`${API_URL}/api/admin/analytics/status`, {
       withCredentials: true,
     });
     return response.data;

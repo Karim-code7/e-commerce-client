@@ -1,6 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { filterOptions } from "@/config";
+import { filterOptions } from "@/config/index";
 import { Fragment } from "react";
 
 const ProductFilter = ({ filters, handleFilter }) => {

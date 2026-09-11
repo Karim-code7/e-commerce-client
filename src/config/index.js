@@ -1,6 +1,9 @@
 import { ShoppingCart } from "lucide-react";
 import { Footprints } from "lucide-react";
 import { Home, ShoppingBag, User, Baby, Watch, Search } from "lucide-react";
+
+export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export const registerFormControls = [
   {
     name: "userName",

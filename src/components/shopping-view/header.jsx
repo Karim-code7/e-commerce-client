@@ -10,7 +10,6 @@ import {
 } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
-import { shoppingViewHeaderMenuItems } from "@/config";
 import { useLocation } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -34,6 +33,7 @@ import { useSearchParams } from "react-router-dom";
 import { Sun } from "lucide-react";
 import { Moon } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
+import { shoppingViewHeaderMenuItems } from "@/config/index";
 function MenuItems({ setOpen }) {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");

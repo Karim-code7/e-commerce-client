@@ -11,7 +11,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { addProductFormElements } from "@/config";
+import { API_URL } from "@/config";
+import { addProductFormElements } from "@/config/index";
 import {
   addNewProduct,
   deleteProduct,
@@ -24,7 +25,6 @@ import { Plus } from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-
 const initialFormData = {
   title: "",
   description: "",
@@ -34,7 +34,6 @@ const initialFormData = {
   salePrice: "",
   totalStock: "",
 };
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function AdminProducts() {
   const [openCreateProductsDialog, setOpenCreateProductsDialog] =
@@ -76,69 +75,79 @@ function AdminProducts() {
     event.preventDefault();
 
     try {
-      // 🌟 التعديل الجوهري: بنلف على الـ Array ونضيف كل الصور تحت نفس اسم الـ Key الموحد للباك إند "my_file"
       setImageLoadingState(true);
-      // 🌟 الباك إند بيرجع Array خيوط [url1, url2, ...] بنحفظه بالكامل في الـ State
-      currentEditedId !== null &&
-        dispatch(editProduct({ formData, id: currentEditedId })).then(
-          (data) => {
-            if (data?.payload?.success) {
-              dispatch(fetchAllProduct());
-              setOpenCreateProductsDialog(false);
-              setCurrentEditedId(null);
-              setFormData(initialFormData);
-              setImageLoadingState(false);
-              toast.success("Product Edit successfully", {
-                style: {
-                  background: "#008236",
-                  color: "var(--secondary)",
-                },
-              });
-            }
-          },
-        );
 
+      let finalImageUrls = formData.image; // الصور القديمة لو مفيش صور جديدة مرفوعة
+
+      // 1. لو فيه صور جديدة اختارها المستخدم، نرفعها الأول على السيرفر
       if (imageFile && imageFile.length > 0) {
         const dataFormImages = new FormData();
-        imageFile?.forEach((file) => {
+        imageFile.forEach((file) => {
           dataFormImages.append("my_file", file);
         });
 
         const response = await axios.post(
-          `${URL}/api/admin/products/upload-image`,
+          `${API_URL}/api/admin/products/upload-image`,
           dataFormImages,
           { withCredentials: true },
         );
+        console.log(response?.data?.data); // 🌟 Debug: Print the uploaded image URLs to the console
 
-        // 🌟 الباك إند بيرجع Array خيوط [url1, url2, ...] بنحفظه بالكامل في الـ State
-        const finalImageUrls = response.data?.result;
-        dispatch(
-          addNewProduct({
-            ...formData,
-            image: finalImageUrls,
-          }),
-        ).then((data) => {
-          if (data?.payload?.success) {
-            setImageLoadingState(false);
-            dispatch(fetchAllProduct());
-            setOpenCreateProductsDialog(false);
-            setImageFile(null);
-            setFormData(initialFormData);
-            toast.success("Product add successfully", {
-              style: {
-                background: "#008236",
-                color: "var(--secondary)",
-              },
-            });
-          }
-        });
+        // الباك إند بيرجع الـ Array الخاص بروابط الصور
+        finalImageUrls = response.data?.data;
       }
+
+      // 2. بناء الأوبجكت النهائي بالبيانات والصور المحدثة
+      const productDataWithImages = {
+        ...formData,
+        image: finalImageUrls,
+      };
+
+      // 3. التحقق: هل نحن في حالة تعديل أم إضافة؟
+      if (currentEditedId !== null) {
+        // --- حالة التعديل (Edit) ---
+        const data = await dispatch(
+          editProduct({ formData: productDataWithImages, id: currentEditedId }),
+        );
+
+        if (data?.payload?.success) {
+          dispatch(fetchAllProduct());
+          setOpenCreateProductsDialog(false);
+          setCurrentEditedId(null);
+          setFormData(initialFormData);
+          setImageFile(null);
+          toast.success("Product Edit successfully", {
+            style: {
+              background: "#008236",
+              color: "var(--secondary)",
+            },
+          });
+        }
+      } else {
+        // --- حالة الإضافة الجديدة (Add) ---
+        const data = await dispatch(addNewProduct(productDataWithImages));
+
+        if (data?.payload?.success) {
+          dispatch(fetchAllProduct());
+          setOpenCreateProductsDialog(false);
+          setImageFile(null);
+          setFormData(initialFormData);
+          toast.success("Product add successfully", {
+            style: {
+              background: "#008236",
+              color: "var(--secondary)",
+            },
+          });
+        }
+      }
+
+      setImageLoadingState(false);
     } catch (err) {
       setImageLoadingState(false);
       console.log(err);
+      toast.error("Something went wrong!");
     }
   }
-
   function handleDetailsProduct(id) {
     dispatch(getProductDeatilsForAdmin(id)).then((data) => {
       if (data?.payload?.success) {

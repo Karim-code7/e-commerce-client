@@ -1,5 +1,5 @@
 import CommonForm from "@/components/common/form";
-import { registerFormControls } from "@/config";
+import { registerFormControls } from "@/config/index";
 import { registerUser } from "@/store/auth-slice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";

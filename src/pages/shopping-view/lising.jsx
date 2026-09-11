@@ -10,7 +10,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { ArrowUpDownIcon } from "lucide-react";
 import { fetchAllFiltred } from "@/store/shop/product-slice"; //
-import { sortOptions } from "@/config"; //
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ShoppingProductTile from "./product-tile";
@@ -19,6 +18,7 @@ import { useSearchParams } from "react-router-dom";
 import ProductDetailsDialog from "./product-details";
 import { useContext } from "react";
 import ProductContext from "../../context/ProductContext";
+import { sortOptions } from "@/config/index";
 
 const ShoppingListing = () => {
   const dispatch = useDispatch();

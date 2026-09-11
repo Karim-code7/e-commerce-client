@@ -1,19 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "@/config";
 
 const initialState = {
   isLoading: false,
   userDeatils: [],
 };
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 export const fetchUser = createAsyncThunk(
   "adminUser/fetchUser",
   async ({ userId }) => {
     // 🌟 ضع الأقواس هنا لتطابق الـ useEffect
     const result = await axios.get(
-      `${URL}/api/admin/user/fetchUser/${userId}`,
+      `${API_URL}/api/admin/user/fetchUser/${userId}`,
       {
         withCredentials: true,
       },

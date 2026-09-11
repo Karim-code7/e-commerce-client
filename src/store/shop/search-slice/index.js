@@ -1,16 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "@/config";
 
 const initialState = {
   isLoading: false,
   searchProducts: [],
 };
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 export const fetchSearchProducts = createAsyncThunk(
   "shop/fetchSearchProducts",
   async (keyword) => {
-    const result = await axios.get(`${URL}/api/shop/search/${keyword}`, {
+    const result = await axios.get(    `${API_URL}/api/shop/search/${keyword}`, {
       withCredentials: true,
     });
     return result.data;

@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "@/config";
 
 // تعريف رابط الـ API ليقرأ من متغيرات البيئة تلقائياً أو يستخدم localhost افتراضياً
-const URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 const initialState = {
   isLoading: false,
   productList: [],
@@ -13,16 +12,12 @@ const initialState = {
 export const addNewProduct = createAsyncThunk(
   "/products/addNewProduct",
   async (formData) => {
-    const result = await axios.post(
-      `${API_URL}/api/admin/products/add`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+    const result = await axios.post(`${API_URL}/api/admin/products/add`, formData, {
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      withCredentials: true, // تأكد إن دي موجودة هنا
+    });
     return result?.data;
   },
 );
@@ -31,7 +26,7 @@ export const getProductDeatilsForAdmin = createAsyncThunk(
   "/products/getProductDeatilsForAdmin",
   async (id) => {
     const result = await axios.get(
-      `${URL}/api/admin/products/get-productDetails/${id}`,
+      `${API_URL}/api/admin/products/get-productDetails/${id}`,
       { withCredentials: true },
     );
     return result?.data;
@@ -41,7 +36,7 @@ export const getProductDeatilsForAdmin = createAsyncThunk(
 export const fetchAllProduct = createAsyncThunk(
   "/products/fetchAllProduct",
   async () => {
-    const result = await axios.get(`${URL}/api/admin/products/get`, {
+    const result = await axios.get(`${API_URL}/api/admin/products/get`, {
       withCredentials: true,
     });
     return result?.data;
@@ -52,7 +47,7 @@ export const editProduct = createAsyncThunk(
   "/products/editProduct",
   async ({ id, formData }) => {
     const result = await axios.put(
-      `${URL}/api/admin/products/edit/${id}`,
+      `${API_URL}/api/admin/products/edit/${id}`,
       formData,
       {
         headers: {
@@ -69,7 +64,7 @@ export const deleteProduct = createAsyncThunk(
   "/products/deleteProduct",
   async (id) => {
     const result = await axios.delete(
-      `${URL}/api/admin/products/delete/${id}`,
+      `${API_URL}/api/admin/products/delete/${id}`,
       {
         withCredentials: true,
       },

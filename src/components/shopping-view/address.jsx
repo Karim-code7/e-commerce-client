@@ -2,7 +2,6 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import CommonForm from "../common/form";
 import { useState } from "react";
-import { addressFormControls } from "@/config";
 import { useDispatch } from "react-redux";
 import { useContext } from "react";
 import ProductContext from "@/context/ProductContext";
@@ -15,6 +14,7 @@ import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import AddressCard from "./address-card";
+import { addressFormControls } from "@/config/index";
 
 const initialAddressFormData = {
   address: "",

@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import ProductContext from "../../context/ProductContext";
 import { useContext } from "react";
 import { useSelector } from "react-redux";
+import { brandOptionsMap, categoryOptionsMap } from "@/config/index";
 
 const ShoppingProductTile = ({ product }) => {
   const { isLoding } = useSelector((state) => state.shopCart);
