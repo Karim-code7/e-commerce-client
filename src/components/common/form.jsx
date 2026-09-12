@@ -1,3 +1,4 @@
+import { ShowerHeadIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import {
@@ -8,6 +9,8 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
+import { Eye } from "lucide-react";
+import { EyeClosed } from "lucide-react";
 
 const type = {
   INPUT: "input",
@@ -21,28 +24,51 @@ const CommonForm = ({
   onSubmit,
   buttonText,
   isBtnDisabled,
+  message,
+  isLoading,
+  passwordVisible,
+  setPasswordVisible,
 }) => {
   function renderInputByComponentType(getControlItem) {
     let element = null;
     const value = formData[getControlItem.name] || formData["orderStatus"];
-
+    const isPasswordField = getControlItem.type === "password";
+    const isPassordVisible = isPasswordField
+      ? passwordVisible
+        ? "text"
+        : "password"
+      : getControlItem.type;
     switch (getControlItem.componentType) {
       case "input":
         element = (
-          <Input
-            className="bg-accent "
-            name={getControlItem.name}
-            placeholder={getControlItem.placeholder}
-            id={getControlItem.name}
-            type={getControlItem.type}
-            value={value || ""}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: event.target.value,
-              })
-            }
-          />
+          <div className="relative">
+            <Input
+              className="bg-accent "
+              name={getControlItem.name}
+              placeholder={getControlItem.placeholder}
+              id={getControlItem.name}
+              type={isPassordVisible}
+              value={value || ""}
+              onChange={(event) =>
+                setFormData({
+                  ...formData,
+                  [getControlItem.name]: event.target.value,
+                })
+              }
+            />
+            {isPasswordField && formData?.password && (
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-all  hover:scale-110 "
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+                {passwordVisible ? (
+                  <Eye className="h-4 w-4" />
+                ) : (
+                  <EyeClosed className="h-4 w-4" />
+                )}
+              </span>
+            )}
+          </div>
         );
 
         break;
@@ -105,12 +131,19 @@ const CommonForm = ({
           </div>
         ))}
       </div>
+      <span className="text-sm text-destructive mt-2">{message}</span>
       <Button
         type="submit"
-        className={`mb-8 mt-2 w-full ${isBtnDisabled ? "cursor-not-allowed" : ""}`}
+        className={`mb-8 w-full mt-6 ${isBtnDisabled ? "cursor-not-allowed" : ""}`}
         disabled={isBtnDisabled}
       >
-        {buttonText || "Submit"}
+        {isLoading ? (
+          <svg className="loadingSvg " viewBox="25 25 50 50">
+            <circle className="loadingCircle " r="20" cy="50" cx="50"></circle>
+          </svg>
+        ) : (
+          buttonText || "Submit"
+        )}
       </Button>
     </form>
   );

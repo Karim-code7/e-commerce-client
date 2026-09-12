@@ -95,21 +95,21 @@ function ProductDetailsDialog() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
           {/* 2. حاوية الصورة - ثابتة الأبعاد في الموبايل لتجنب التمطيط */}
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 h-full">
             <div className="  aspect-square lg:aspect-auto">
               <img
                 src={productDeatails?.image[image]}
                 alt={productDeatails?.title}
-                className="w-full h-auto object-cover rounded-md"
+                className="w-full min-h-87.5 object-cover rounded-md"
               />
             </div>
-            <div className="  aspect-square grid grid-cols-4 gap-2 lg:aspect-auto h-[150px] ">
+            <div className="  aspect-square grid grid-cols-4 gap-2 lg:aspect-auto h-37.5 ">
               {productDeatails?.image?.map((image, index) => (
                 <img
                   key={index}
                   src={image}
                   alt={productDeatails?.title}
-                  className="max-w-full h-[150px] object-cover rounded-md"
+                  className="max-w-full h-37.5 object-cover rounded-md"
                   onClick={() => setImage(index)}
                 />
               ))}
@@ -121,7 +121,7 @@ function ProductDetailsDialog() {
               <h1 className="text-2xl lg:text-3xl font-extrabold tracking-tight">
                 {productDeatails?.title}
               </h1>
-              <p className="text-muted-foreground mt-2 text-sm lg:text-base leading-relaxed">
+              <p className="text-muted-foreground mt-2 text-sm lg:text-base leading-relaxed wrap-break-word">
                 {productDeatails?.description}
               </p>
             </div>
@@ -177,7 +177,7 @@ function ProductDetailsDialog() {
 
             {/* 4. قسم المراجعات - تحديد ارتفاع داخلي للسكرول */}
             {isLoading ? (
-              <div className="flex flex-col items-center justify-center min-h-[200px] gap-2 text-muted-foreground">
+              <div className="flex flex-col items-center justify-center min-h-50 gap-2 text-muted-foreground">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 <span className="text-sm font-medium animate-pulse">
                   Loading reviews...

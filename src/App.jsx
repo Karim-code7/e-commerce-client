@@ -41,13 +41,6 @@ const App = () => {
     }
   }, [dispatch, user?.role]);
 
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center h-screen w-full">
-        <Skeleton className="h-150 w-150 " />
-      </div>
-    );
-
   return (
     <div className=" overflow-hidden  ">
       <Routes>
