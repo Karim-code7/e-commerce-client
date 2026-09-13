@@ -15,7 +15,6 @@ const initialState = {
 function AuthRegister() {
   const [formData, setFormData] = useState(initialState);
   const [message, setMessage] = useState(null);
-  const [passwordVisible, setPasswordVisible] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading } = useSelector((state) => state.auth);
@@ -123,8 +122,6 @@ function AuthRegister() {
         }
         isLoading={isLoading}
         message={message}
-        passwordVisible={passwordVisible}
-        setPasswordVisible={setPasswordVisible}
       />
     </div>
   );

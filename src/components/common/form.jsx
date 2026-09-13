@@ -11,6 +11,7 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Eye } from "lucide-react";
 import { EyeClosed } from "lucide-react";
+import { useState } from "react";
 
 const type = {
   INPUT: "input",
@@ -26,10 +27,9 @@ const CommonForm = ({
   isBtnDisabled,
   message,
   isLoading,
-  passwordVisible,
-  setPasswordVisible,
 }) => {
   function renderInputByComponentType(getControlItem) {
+    const [passwordVisible, setPasswordVisible] = useState(false);
     let element = null;
     const value = formData[getControlItem.name] || formData["orderStatus"];
     const isPasswordField = getControlItem.type === "password";
